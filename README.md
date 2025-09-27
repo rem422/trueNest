@@ -35,7 +35,6 @@ Built with **MongoDB, Express, React, and Node.js**, trueNest provides a seamles
 git clone https://github.com/rem422/trueNest.git
 cd trueNest
 
-
 ### Backend Setup
 cd server
 npm install
