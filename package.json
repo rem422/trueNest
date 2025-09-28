@@ -1,0 +1,29 @@
+{
+  "name": "truenest",
+  "version": "1.0.0",
+  "description": "A full-stack MERN application for discovering, listing, and managing rental properties with ease.   Built with **MongoDB, Express, React, and Node.js**, trueNest provides a seamless experience for both tenants and landlords.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server/server.js",
+    "dev": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rem422/trueNest.git"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rem422/trueNest/issues"
+  },
+  "homepage": "https://github.com/rem422/trueNest#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "mongoose": "^8.18.2"
+  }
+}
