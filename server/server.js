@@ -11,6 +11,16 @@ dotenv.config();
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    return res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message, 
+    });
+});
+
 const DB = process.env.MONGODB_CONN.replace('<PASSWORD>', process.env.DB_PASSWORD);
 
 const connectDB = async() => {
