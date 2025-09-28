@@ -15,7 +15,7 @@ const DB = process.env.MONGODB_CONN.replace('<PASSWORD>', process.env.DB_PASSWOR
 
 const connectDB = async() => {
     try {
-        await mongoose.connect(DB)
+        await mongoose.connect(DB);
         console.log('DB connected successful!');
     } catch(err) {
         console.log('Server Error', err);
