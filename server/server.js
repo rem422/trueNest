@@ -1,13 +1,15 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import userRouter  from './routes/user.route.js'
+import userRouter  from './routes/user.route.js';
+import authRouter from './routes/auth.route.js';
 
 const app = express();
 app.use(express.json());
 dotenv.config();
 
 app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
 
 const DB = process.env.MONGODB_CONN.replace('<PASSWORD>', process.env.DB_PASSWORD);
 
