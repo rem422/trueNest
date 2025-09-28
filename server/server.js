@@ -1,14 +1,13 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import userRouter  from './routes/user.route.js'
 
 const app = express();
 app.use(express.json());
 dotenv.config();
 
-app.get("/", (req, res) => {
-    res.status(200).json({message: 'Server is Running'});
-});
+app.use("/api/user", userRouter);
 
 const DB = process.env.MONGODB_CONN.replace('<PASSWORD>', process.env.DB_PASSWORD);
 
