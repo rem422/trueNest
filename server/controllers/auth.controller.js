@@ -1,4 +1,5 @@
 import User from '../models/user.model.js';
+import { errorHandler2 } from '../middlewares/errorHandler.js';
 
 export const signUp = async (req, res, next) => {
     const { username, email, password } = req.body;
@@ -36,11 +37,14 @@ export const signUp = async (req, res, next) => {
     }
 }
 
+// Sign in
 export const signIn = async (req, res, next) => {
     const {email, password} = req.body;
 
     try{
         const user = await User.findOne({ email });
+
+        if(!user) return next(errorHandler2(404, 'User not found'));
 
         if(!user || !(await user.matchPassword(password))) {
             return res.status(401).json({
