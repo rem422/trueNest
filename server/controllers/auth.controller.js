@@ -40,13 +40,6 @@ export const signIn = async (req, res, next) => {
     const {email, password} = req.body;
 
     try{
-        if(!email || !password) {
-            res.status(400).json({
-                status: false,
-                message: 'Please fill all the fields'
-            });
-        }
-
         const user = await User.findOne({ email });
 
         if(!user || !(await user.matchPassword(password))) {
