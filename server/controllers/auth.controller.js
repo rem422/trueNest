@@ -35,3 +35,34 @@ export const signUp = async (req, res, next) => {
         next(err);
     }
 }
+
+export const signIn = async (req, res, next) => {
+    const {email, password} = req.body;
+
+    try{
+        if(!email || !password) {
+            res.status(400).json({
+                status: false,
+                message: 'Please fill all the fields'
+            });
+        }
+
+        const user = await User.findOne({ email });
+
+        if(!user || !(await user.matchPassword(password))) {
+            return res.status(401).json({
+                status: false,
+                message: 'Invalid credentials'
+            });
+        }
+
+        res.status(200).json({
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            message: 'Login successful!'
+        });
+    } catch(err) {
+        next(err);
+    }
+}
