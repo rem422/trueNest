@@ -5,9 +5,9 @@ import userRouter  from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 
+dotenv.config();
 const app = express();
 app.use(express.json());
-dotenv.config();
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
