@@ -1,5 +1,6 @@
 import User from '../models/user.model.js';
 import { errorHandler2 } from '../middlewares/errorHandler.js';
+import jwt from 'jsonwebtoken';
 
 export const signUp = async (req, res, next) => {
     const { username, email, password } = req.body;
@@ -42,23 +43,19 @@ export const signIn = async (req, res, next) => {
     const {email, password} = req.body;
 
     try{
-        const user = await User.findOne({ email });
-
-        if(!user) return next(errorHandler2(404, 'User not found'));
-
-        if(!user || !(await user.matchPassword(password))) {
-            return res.status(401).json({
-                status: false,
-                message: 'Invalid credentials'
-            });
-        }
-
-        res.status(200).json({
-            id: user._id,
-            username: user.username,
-            email: user.email,
-            message: 'Login successful!'
-        });
+        const validUser = await User.findOne({ email });
+        if(!validUser) return next(errorHandler2(404, 'User not found!'));
+        if(!validUser || !(await validUser.matchPassword(password)))
+            return next(errorHandler2(401, 'Wrong credentials!'));
+        
+        const token = jwt.sign({id: validUser._id}, process.env.JWT_SECTET)
+        // object destructuring with renaming + rest operator.
+        const { password: pass, ...rest} = validUser._doc;
+        res
+            .cookie('access_token', token, { httpOnly: true})
+            .status(200)
+            .json(rest);
+        
     } catch(err) {
         next(err);
     }
