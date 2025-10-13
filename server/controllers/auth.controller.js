@@ -23,17 +23,16 @@ export const signIn = async (req, res, next) => {
     try{
         const validUser = await User.findOne({ email });
         if(!validUser) return next(errorHandler2(404, 'User not found!'));
-        if(!validUser || !(await validUser.matchPassword(password)))
-            return next(errorHandler2(401, 'Wrong credentials!'));
+        const validPassword = bcrypt.compareSync(password, validUser.password);
+        if(!validPassword) return next(errorHandler2(401, 'Wrong credentials!'));
         
-        const token = jwt.sign({id: validUser._id}, process.env.JWT_SECTET)
+        const token = jwt.sign({id: validUser._id}, process.env.JWT_SECRET);
         // object destructuring with renaming + rest operator.
         const { password: pass, ...rest} = validUser._doc;
         res
             .cookie('access_token', token, { httpOnly: true})
             .status(200)
             .json(rest);
-        
     } catch(err) {
         next(err);
     }
