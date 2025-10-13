@@ -15,7 +15,7 @@ const handleChange = (e) => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  setLoading(true)
+  setLoading(true);
   const res = await fetch('/api/auth/signup', 
     {
       method: 'POST',
@@ -27,7 +27,12 @@ const handleSubmit = async (e) => {
   );
   
   const data  = await res.json();
-  console.log(data);
+
+  if(data.success === false) {
+    setLoading(false);
+    setError(data.message);
+    return;
+  }
   
   setLoading(false);
 };
@@ -65,7 +70,7 @@ const handleSubmit = async (e) => {
         <button 
           disabled={loading}
           className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 cursor-pointer'>
-            { loading ? "Sign up..." : "Sign up" }
+            { loading ? "Loading..." : "Sign up" }
         </button>
       </form>
       <div className='flex gap-2 mt-5'>
